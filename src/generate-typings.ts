@@ -7,5 +7,6 @@ const definitionsFactory = new GraphQLDefinitionsFactory();
 await definitionsFactory.generate({
   typePaths: [typePaths],
   path: generatedPath,
+  outputAs: 'class',
   watch,
 });

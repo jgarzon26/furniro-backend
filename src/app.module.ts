@@ -29,6 +29,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       typePaths: [typePaths],
       definitions: {
         path: generatedPath,
+        outputAs: 'class',
       },
     }),
   ],
