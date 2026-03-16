@@ -5,9 +5,12 @@
   "author": "JSG",
   "private": true,
   "license": "ISC",
+  "type": "module",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "generate": "ts-node generate-typings",
+    "generate:watch": "ts-node generate-typings -w",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -20,9 +23,14 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@apollo/server": "^5.4.0",
+    "@as-integrations/express5": "^1.1.2",
+    "@nestjs/apollo": "^13.2.4",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/graphql": "^13.2.4",
     "@nestjs/platform-express": "^11.0.1",
+    "graphql": "^16.13.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
