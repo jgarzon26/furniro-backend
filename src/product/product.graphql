@@ -13,7 +13,18 @@ type Product {
   reviews: [Review]
 }
 
-type Query {
+input Paginate {
+  page: Int!
+  itemsPerPage: Int!
+}
+
+type PaginateRes {
   products: [Product!]!
-  product(id: ID!): Product!
+  totalPages: Int
+  count: Int
+}
+
+type Query {
+  products(paginate: Paginate): PaginateRes!
+  product(slug: String!): Product!
 }
