@@ -1,0 +1,19 @@
+type Product {
+  id: ID!
+  title: String!
+  sku: String!
+  slug: String!
+  subtitle: String
+  description: String
+  shortDescription: String
+  price: Float!
+  discountedPrice: Float
+  images: [String]!
+  tags: [String]
+  reviews: [Review]
+}
+
+type Query {
+  products: [Product!]!
+  product(id: ID!): Product!
+}
