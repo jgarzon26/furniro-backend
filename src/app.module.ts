@@ -4,6 +4,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { generatedPath, typePaths } from './constants.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProductModule } from './product/product.module.js';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         outputAs: 'class',
       },
     }),
+    ProductModule,
   ],
 })
 export class AppModule {}
