@@ -7,6 +7,10 @@ import { GraphQLError } from 'graphql';
 import { ProductDTO } from './dto/product.dto.js';
 import { PaginateDTO } from './dto/paginate.dto.js';
 
+interface Metadata {
+  totalCount: number;
+}
+
 @Injectable()
 export class ProductService {
   constructor(
@@ -22,10 +26,31 @@ export class ProductService {
       };
     }
 
-    //TODO: pagination
+    const { itemsPerPage, page } = input;
+    const productsRes = (await this.productRepo
+      .aggregate([
+        {
+          $facet: {
+            metadata: [{ $count: 'totalCount' }],
+            data: [
+              { $skip: (page - 1) * itemsPerPage },
+              { $limit: itemsPerPage },
+            ],
+          },
+        },
+      ])
+      .toArray()) as Array<{
+      metadata: Array<Metadata> | [];
+      data: Product[];
+    }>;
+
+    const count = productsRes[0].metadata[0].totalCount;
+    const totalPages = Math.ceil(count / itemsPerPage);
 
     return {
-      products: [],
+      products: productsRes[0].data,
+      count,
+      totalPages,
     };
   }
 
