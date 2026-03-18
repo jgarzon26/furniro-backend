@@ -1,18 +1,19 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { ProductService } from './product.service.js';
-import { Paginate } from 'src/graphql.js';
+import { PaginateDTO } from './dto/paginate.dto.js';
+import { ProductDTO } from './dto/product.dto.js';
 
 @Resolver('Product')
 export class ProductResolver {
   constructor(private productService: ProductService) {}
 
   @Query('products')
-  getProducts(@Args('paginate') input?: Paginate) {
+  getProducts(@Args('paginate') input?: PaginateDTO) {
     return this.productService.getProducts(input);
   }
 
   @Query('product')
-  getProductById(@Args('slug') slug: string) {
-    return this.productService.getProductBySlug(slug);
+  getProductById(@Args('input') input: ProductDTO) {
+    return this.productService.getProductBySlug(input);
   }
 }
