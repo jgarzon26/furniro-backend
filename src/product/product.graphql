@@ -18,6 +18,10 @@ input Paginate {
   itemsPerPage: Int!
 }
 
+input ProductInput {
+  slug: String!
+}
+
 type PaginateRes {
   products: [Product!]!
   totalPages: Int
@@ -26,5 +30,5 @@ type PaginateRes {
 
 type Query {
   products(paginate: Paginate): PaginateRes!
-  product(slug: String!): Product!
+  product(input: ProductInput!): Product!
 }
