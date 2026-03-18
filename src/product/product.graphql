@@ -13,10 +13,10 @@ type Product {
   reviews: [Review]
 }
 
-input Paginate {
 input ProductsOption {
   page: Int!
   itemsPerPage: Int!
+  search: String
 }
 
 input ProductInput {
@@ -30,7 +30,6 @@ type PaginateRes {
 }
 
 type Query {
-  products(paginate: Paginate): PaginateRes!
   products(options: ProductsOption): PaginateRes!
   product(input: ProductInput!): Product!
 }

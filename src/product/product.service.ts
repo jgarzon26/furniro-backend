@@ -26,10 +26,17 @@ export class ProductService {
       };
     }
 
-    const { itemsPerPage, page } = input;
+    const { itemsPerPage, page, search } = input;
+    const sanitizedSearch = search?.trim() ?? '';
     const productsRes = (await this.productRepo
       .aggregate([
         {
+          $match: {
+            title: {
+              $regex: sanitizedSearch,
+              $options: 'i',
+            },
+          },
           $facet: {
             metadata: [{ $count: 'totalCount' }],
             data: [
@@ -44,11 +51,11 @@ export class ProductService {
       data: Product[];
     }>;
 
-    const count = productsRes[0].metadata[0].totalCount;
+    const count = productsRes[1].metadata[0]?.totalCount ?? 0;
     const totalPages = Math.ceil(count / itemsPerPage);
 
     return {
-      products: productsRes[0].data,
+      products: productsRes[1].data,
       count,
       totalPages,
     };

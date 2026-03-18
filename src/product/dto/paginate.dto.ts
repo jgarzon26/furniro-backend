@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsNotEmpty, Min } from 'class-validator';
-import { Paginate } from 'src/graphql.js';
+import { IsInt, IsNotEmpty, IsString, Min } from 'class-validator';
 import { ProductsOption } from 'src/graphql.js';
 
 export class ProductsOptionDTO extends ProductsOption {
@@ -15,4 +14,7 @@ export class ProductsOptionDTO extends ProductsOption {
   @IsInt({ message: 'Page must be a number' })
   @Min(1, { message: 'Page must be greater than or equal to 1' })
   declare page: number;
+
+  @IsString()
+  declare search?: string;
 }
