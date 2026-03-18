@@ -1,6 +1,6 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { ProductService } from './product.service.js';
-import { ProductsOptionDTO } from './dto/paginate.dto.js';
+import { ProductsOptionDTO } from './dto/product-options.dto.js';
 import { ProductDTO } from './dto/product.dto.js';
 
 @Resolver('Product')

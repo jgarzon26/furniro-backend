@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PaginateRes } from 'src/graphql.js';
 import { GraphQLError } from 'graphql';
 import { ProductDTO } from './dto/product.dto.js';
-import { ProductsOptionDTO } from './dto/paginate.dto.js';
+import { ProductsOptionDTO } from './dto/product-options.dto.js';
 
 interface Metadata {
   totalCount: number;

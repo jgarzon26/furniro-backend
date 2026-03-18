@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, IsString, Min } from 'class-validator';
-import { ProductsOption } from 'src/graphql.js';
+import { ProductsOption } from '../../graphql.js';
 
 export class ProductsOptionDTO extends ProductsOption {
   @IsNotEmpty()

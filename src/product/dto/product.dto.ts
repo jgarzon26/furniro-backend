@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { ProductInput } from 'src/graphql.js';
+import { ProductInput } from '../../graphql.js';
 
 export class ProductDTO extends ProductInput {
   @IsNotEmpty()
