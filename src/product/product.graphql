@@ -14,6 +14,7 @@ type Product {
 }
 
 input Paginate {
+input ProductsOption {
   page: Int!
   itemsPerPage: Int!
 }
@@ -30,5 +31,6 @@ type PaginateRes {
 
 type Query {
   products(paginate: Paginate): PaginateRes!
+  products(options: ProductsOption): PaginateRes!
   product(input: ProductInput!): Product!
 }

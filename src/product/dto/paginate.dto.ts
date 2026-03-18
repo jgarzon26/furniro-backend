@@ -1,8 +1,9 @@
 import { Type } from 'class-transformer';
 import { IsInt, IsNotEmpty, Min } from 'class-validator';
 import { Paginate } from 'src/graphql.js';
+import { ProductsOption } from 'src/graphql.js';
 
-export class PaginateDTO extends Paginate {
+export class ProductsOptionDTO extends ProductsOption {
   @IsNotEmpty()
   @Type(() => Number)
   @IsInt({ message: 'Items per page must be a number' })

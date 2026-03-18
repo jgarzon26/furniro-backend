@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PaginateRes } from 'src/graphql.js';
 import { GraphQLError } from 'graphql';
 import { ProductDTO } from './dto/product.dto.js';
-import { PaginateDTO } from './dto/paginate.dto.js';
+import { ProductsOptionDTO } from './dto/paginate.dto.js';
 
 interface Metadata {
   totalCount: number;
@@ -18,7 +18,7 @@ export class ProductService {
     private productRepo: MongoRepository<Product>,
   ) {}
 
-  async getProducts(input?: PaginateDTO): Promise<PaginateRes> {
+  async getProducts(input?: ProductsOptionDTO): Promise<PaginateRes> {
     if (!input) {
       const products = await this.productRepo.find();
       return {
