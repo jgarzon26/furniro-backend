@@ -1,5 +1,5 @@
 type Product {
-  id: ID!
+  id: ID
   title: String!
   sku: String!
   slug: String!
@@ -24,7 +24,7 @@ input ProductInput {
 }
 
 type PaginateRes {
-  products: [Product!]!
+  products: [Product]!
   totalPages: Int
   count: Int
 }
