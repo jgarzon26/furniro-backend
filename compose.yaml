@@ -1,7 +1,6 @@
 services:
   db-furniro:
     image: 'mongo'
-    hostname: mongodb
     ports:
       - 27017:27017
     env_file:
