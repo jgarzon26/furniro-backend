@@ -14,8 +14,8 @@ type Product {
 }
 
 input ProductsOption {
-  page: Int!
-  itemsPerPage: Int!
+  page: Int
+  itemsPerPage: Int
   search: String
 }
 
@@ -23,13 +23,13 @@ input ProductInput {
   slug: String!
 }
 
-type PaginateRes {
-  products: [Product]!
+type ProductsRes {
+  items: [Product!]!
   totalPages: Int
   count: Int
 }
 
 type Query {
-  products(options: ProductsOption): PaginateRes!
+  products(options: ProductsOption): ProductsRes!
   product(input: ProductInput!): Product!
 }

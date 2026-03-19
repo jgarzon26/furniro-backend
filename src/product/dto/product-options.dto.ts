@@ -7,13 +7,13 @@ export class ProductsOptionDTO extends ProductsOption {
   @Type(() => Number)
   @IsInt({ message: 'Items per page must be a number' })
   @Min(1, { message: 'Items per page must be greater than or equal to 1' })
-  declare itemsPerPage: number;
+  declare itemsPerPage?: number;
 
   @IsNotEmpty()
   @Type(() => Number)
   @IsInt({ message: 'Page must be a number' })
   @Min(1, { message: 'Page must be greater than or equal to 1' })
-  declare page: number;
+  declare page?: number;
 
   @IsString()
   declare search?: string;

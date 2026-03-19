@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MongoRepository } from 'typeorm';
 import { Product } from './product.entity.js';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PaginateRes } from 'src/graphql.js';
+import { ProductsRes } from '../graphql.js';
 import { GraphQLError } from 'graphql';
 import { ProductDTO } from './dto/product.dto.js';
 import { ProductsOptionDTO } from './dto/product-options.dto.js';
@@ -18,15 +18,18 @@ export class ProductService {
     private productRepo: MongoRepository<Product>,
   ) {}
 
-  async getProducts(input?: ProductsOptionDTO): Promise<PaginateRes> {
-    if (!input) {
+  async getProducts({
+    itemsPerPage,
+    page,
+    search,
+  }: ProductsOptionDTO): Promise<ProductsRes> {
+    if (!page || !itemsPerPage) {
       const products = await this.productRepo.find();
       return {
-        products,
+        items: products,
       };
     }
 
-    const { itemsPerPage, page, search } = input;
     const sanitizedSearch = search?.trim() ?? '';
     const productsRes = (await this.productRepo
       .aggregate([
@@ -55,7 +58,7 @@ export class ProductService {
     const totalPages = Math.ceil(count / itemsPerPage);
 
     return {
-      products: productsRes[1].data,
+      items: productsRes[1].data,
       count,
       totalPages,
     };

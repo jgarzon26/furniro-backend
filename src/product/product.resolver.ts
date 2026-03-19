@@ -8,7 +8,7 @@ export class ProductResolver {
   constructor(private productService: ProductService) {}
 
   @Query('products')
-  getProducts(@Args('options') input?: ProductsOptionDTO) {
+  getProducts(@Args('options') input: ProductsOptionDTO) {
     return this.productService.getProducts(input);
   }
 
