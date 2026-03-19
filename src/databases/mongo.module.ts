@@ -14,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: config.get('MONGO_INITDB_ROOT_USERNAME'),
         password: config.get('MONGO_INITDB_ROOT_PASSWORD'),
         database: config.get('MONGO_INITDB_DATABASE'),
-        entities: ['./../**/*.entity{.js/.ts}'],
+        entities: ['dist/**/*.entity.js'],
         synchronize: true,
       }),
       inject: [ConfigService],
