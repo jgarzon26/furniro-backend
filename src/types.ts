@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 
-export interface Context {
+export interface GQLContext {
   req?: Request;
-  res: Response;
+  res?: Response;
+  uid?: string;
+  [key: string]: any;
 }

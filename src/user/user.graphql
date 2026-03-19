@@ -8,3 +8,7 @@ input loginInput {
   username: String!
   password: String!
 }
+
+extend type Query {
+  user: User!
+}
