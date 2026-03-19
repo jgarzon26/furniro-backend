@@ -1,0 +1,9 @@
+type CartItem {
+  id: ID
+  product: Product!
+  quantity: Int!
+}
+
+type Cart {
+  items: [CartItem!]!
+}
