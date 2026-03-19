@@ -1,10 +1,10 @@
+import { Prop } from '@nestjs/mongoose';
 import { Review as ReviewGQL } from 'src/graphql.js';
-import { Column } from 'typeorm';
 
 export class Review implements ReviewGQL {
-  @Column()
+  @Prop()
   title: string;
 
-  @Column()
+  @Prop()
   comment: string;
 }
