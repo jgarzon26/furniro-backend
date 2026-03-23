@@ -1,8 +1,7 @@
 type Product {
-  id: ID
   title: String!
-  sku: String!
-  slug: String!
+  sku: ID!
+  slug: ID!
   subtitle: String
   description: String
   shortDescription: String
@@ -10,6 +9,7 @@ type Product {
   discountedPrice: Float
   images: [String]!
   tags: [String]
+  category: Category!
   reviews: [Review]
 }
 
