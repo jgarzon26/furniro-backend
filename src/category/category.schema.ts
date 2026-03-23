@@ -6,10 +6,10 @@ export type CategoryDocument = HydratedDocument<Category>;
 
 @Schema()
 export class Category implements CategoryGQL {
-  @Prop({ _id: true })
-  id: string;
-
   @Prop({ unique: true })
+  slug: string;
+
+  @Prop()
   title: string;
 }
 

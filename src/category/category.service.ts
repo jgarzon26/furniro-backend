@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CategoryDto } from './dto/category.dto.js';
 import { GraphQLError } from 'graphql';
 import { AddCategoryDto } from './dto/addCategory.dto.js';
+import slugify from 'slugify';
 
 @Injectable()
 export class CategoryService {
@@ -18,8 +19,8 @@ export class CategoryService {
     return categories;
   }
 
-  async getCategory({ id, title }: CategoryDto): Promise<Category> {
-    const category = await this.categoryModel.findOne({ id, title });
+  async getCategory({ slug }: CategoryDto): Promise<Category> {
+    const category = await this.categoryModel.findOne({ slug });
     if (!category) {
       throw new GraphQLError('Category not found');
     }
@@ -29,6 +30,7 @@ export class CategoryService {
   async addCategory({ title }: AddCategoryDto): Promise<boolean> {
     const category = new this.categoryModel({
       title,
+      slug: slugify.default(title, { lower: true, trim: true }),
     });
 
     try {

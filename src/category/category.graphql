@@ -1,11 +1,10 @@
 type Category {
-  id: ID!
+  slug: ID!
   title: String!
 }
 
 input CategoryInput {
-  id: ID
-  title: String
+  slug: ID!
 }
 
 input AddCategoryInput {
