@@ -8,7 +8,7 @@ export type ProductDocument = HydratedDocument<Product>;
 @Schema()
 export class Product implements ProductGQL {
   @Prop({ _id: true })
-  id?: string;
+  id: string;
 
   @Prop({ unique: true })
   sku: string;
