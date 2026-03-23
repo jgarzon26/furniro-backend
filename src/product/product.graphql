@@ -29,7 +29,7 @@ type ProductsRes {
   count: Int
 }
 
-type Query {
+extend type Query {
   products(options: ProductsOption): ProductsRes!
   product(input: ProductInput!): Product!
 }
