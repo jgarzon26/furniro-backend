@@ -9,6 +9,7 @@ type Product {
   discountedPrice: Float
   images: [String]!
   tags: [String]
+  category: Category!
   reviews: [Review]
 }
 
