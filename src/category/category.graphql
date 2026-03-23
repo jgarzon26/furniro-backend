@@ -1,0 +1,22 @@
+type Category {
+  id: ID!
+  title: String!
+}
+
+input CategoryInput {
+  id: ID
+  title: String
+}
+
+input AddCategoryInput {
+  title: String!
+}
+
+extend type Query {
+  categories: [Category!]!
+  category(input: CategoryInput!): Category!
+}
+
+extend type Mutation {
+  category(input: AddCategoryInput!): Boolean!
+}
