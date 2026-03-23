@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from './product/product.module.js';
 import { GraphQLModule } from './graphql/graphql.module.js';
+import { UserModule } from './user/user.module.js';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { GraphQLModule } from './graphql/graphql.module.js';
     }),
     GraphQLModule,
     ProductModule,
+    UserModule,
   ],
 })
 export class AppModule {}

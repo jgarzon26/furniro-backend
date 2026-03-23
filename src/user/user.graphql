@@ -1,0 +1,14 @@
+type User {
+  id: ID!
+  username: String!
+  cart: Cart!
+}
+
+input loginInput {
+  username: String!
+  password: String!
+}
+
+extend type Query {
+  user: User!
+}
