@@ -33,11 +33,7 @@ export class CategoryService {
       slug: slugify.default(title, { lower: true, trim: true }),
     });
 
-    try {
-      await category.save();
-      return true;
-    } catch {
-      return false;
-    }
+    await category.save();
+    return true;
   }
 }
