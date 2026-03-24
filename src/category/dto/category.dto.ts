@@ -1,9 +1,8 @@
-import { IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { CategoryInput } from '../../graphql.js';
 
 export class CategoryDto implements CategoryInput {
+  @IsNotEmpty()
   @IsString()
-  id?: string;
-  @IsString()
-  title?: string;
+  slug: string;
 }

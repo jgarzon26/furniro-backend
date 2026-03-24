@@ -30,18 +30,29 @@ export class ProductService {
       };
     }
 
-    const sanitizedSearch = search?.trim() ?? '';
+    const sanitizedSearch = search?.trim().toLowerCase() ?? '';
     const productsRes = await this.productModel.aggregate<{
       metadata: Array<Metadata> | [];
       data: Product[];
     }>([
       {
         $match: {
-          title: {
-            $regex: sanitizedSearch,
-            $options: 'i',
-          },
+          $or: [
+            {
+              title: {
+                $regex: sanitizedSearch,
+                $options: 'i',
+              },
+            },
+            {
+              tags: {
+                $elemMatch: { $regex: sanitizedSearch, $options: 'i' },
+              },
+            },
+          ],
         },
+      },
+      {
         $facet: {
           metadata: [{ $count: 'totalCount' }],
           data: [
@@ -52,18 +63,18 @@ export class ProductService {
       },
     ]);
 
-    const count = productsRes[1].metadata[0]?.totalCount ?? 0;
+    const count = productsRes[0].metadata[0]?.totalCount ?? 0;
     const totalPages = Math.ceil(count / itemsPerPage);
 
     return {
-      items: productsRes[1].data,
+      items: productsRes[0].data,
       count,
       totalPages,
     };
   }
 
   async getProductBySlug({ slug }: ProductDTO): Promise<Product> {
-    const product = await this.productModel.findOne({ where: { slug } });
+    const product = await this.productModel.findOne({ slug });
 
     if (!product) {
       throw new GraphQLError(`Product ${slug} does not exist`);
