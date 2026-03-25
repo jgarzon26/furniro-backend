@@ -6,6 +6,7 @@ import { ProductDTO } from './dto/product.dto.js';
 import { ProductsOptionDTO } from './dto/product-options.dto.js';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ProductsRelatedOptionsDto } from './dto/product-related-options.dto.js';
 
 interface Metadata {
   totalCount: number;
@@ -74,12 +75,48 @@ export class ProductService {
   }
 
   async getProductBySlug({ slug }: ProductDTO): Promise<Product> {
-    const product = await this.productModel.findOne({ slug });
+    const product = await this.productModel
+      .findOne({ slug })
+      .populate('category');
 
     if (!product) {
       throw new GraphQLError(`Product ${slug} does not exist`);
     }
 
     return product;
+  }
+
+  async getRelatedProducts({ slug, limit }: ProductsRelatedOptionsDto) {
+    const currentProduct = await this.productModel.findOne(
+      { slug },
+      {
+        category: 1,
+        tags: 1,
+      },
+    );
+    const tags = currentProduct?.tags;
+    const category = currentProduct?.category;
+
+    const products = this.productModel.aggregate([
+      {
+        $match: {
+          $or: [
+            {
+              tags: {
+                $in: tags,
+              },
+            },
+            {
+              'category.slug': category?.slug,
+            },
+          ],
+        },
+      },
+      {
+        $sample: { size: limit ?? 5 },
+      },
+    ]);
+
+    return products;
   }
 }

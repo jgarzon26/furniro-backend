@@ -19,6 +19,11 @@ input ProductsOption {
   search: String
 }
 
+input ProductsRelatedOption {
+  limit: Int
+  slug: String!
+}
+
 input ProductInput {
   slug: String!
 }
@@ -31,5 +36,6 @@ type ProductsRes {
 
 extend type Query {
   products(options: ProductsOption): ProductsRes!
+  relatedProducts(options: ProductsRelatedOption!): [Product!]!
   product(input: ProductInput!): Product!
 }
