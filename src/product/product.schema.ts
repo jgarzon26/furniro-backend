@@ -34,7 +34,7 @@ export class Product implements ProductGQL {
   @Prop()
   discountedPrice?: number;
 
-  @Prop({ type: mongoose.Schema.Types.String, ref: 'Category' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
   category: Category;
 
   @Prop([String])
