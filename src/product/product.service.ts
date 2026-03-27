@@ -7,6 +7,7 @@ import { ProductsOptionDTO } from './dto/product-options.dto.js';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ProductsRelatedOptionsDto } from './dto/product-related-options.dto.js';
+import { ProductRandomOptionsDto } from './dto/product-random-options.dto.js';
 
 interface Metadata {
   totalCount: number;
@@ -116,6 +117,21 @@ export class ProductService {
         $sample: { size: limit ?? 5 },
       },
     ]);
+
+    return products;
+  }
+
+  async getRandomProducts({ limit }: ProductRandomOptionsDto) {
+    const count = await this.productModel.countDocuments();
+    const res = await this.productModel.aggregate([
+      {
+        $sample: { size: limit ?? count },
+      },
+    ]);
+
+    const products = await this.productModel.populate(res, {
+      path: 'category',
+    });
 
     return products;
   }

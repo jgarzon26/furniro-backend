@@ -24,6 +24,10 @@ input ProductsRelatedOption {
   slug: String!
 }
 
+input RandomProductsOption {
+  limit: Int
+}
+
 input ProductInput {
   slug: String!
 }
@@ -36,6 +40,7 @@ type ProductsRes {
 
 extend type Query {
   products(options: ProductsOption): ProductsRes!
+  randomProducts(options: RandomProductsOption!): [Product!]!
   relatedProducts(options: ProductsRelatedOption!): [Product!]!
   product(input: ProductInput!): Product!
 }
