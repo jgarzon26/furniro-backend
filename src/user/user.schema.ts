@@ -4,7 +4,9 @@ import { Cart, User as UserGQL } from '../graphql.js';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class User implements UserGQL {
   @Prop({ _id: true })
   id: string;
@@ -13,7 +15,22 @@ export class User implements UserGQL {
   username: string;
 
   @Prop()
+  displayName?: string;
+
+  @Prop({ unique: true })
+  email: string;
+
+  @Prop()
+  avatar?: string;
+
+  @Prop()
+  bio?: string;
+
+  @Prop()
   password: string;
+
+  @Prop({ enum: ['user', 'admin', 'moderator'], default: 'user' })
+  role: string;
 
   @Prop(Cart)
   cart: Cart;
