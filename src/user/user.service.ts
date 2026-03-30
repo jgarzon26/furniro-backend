@@ -3,6 +3,9 @@ import { Model } from 'mongoose';
 import { User } from './user.schema.js';
 import { InjectModel } from '@nestjs/mongoose';
 import { GraphQLError } from 'graphql';
+import { LoginDto } from './dto/login.dto.js';
+import { SignupDto } from './dto/signup.dto.js';
+import { AuthRes } from '../graphql.js';
 
 @Injectable()
 export class UserService {
@@ -20,4 +23,8 @@ export class UserService {
 
     return user;
   }
+
+  async login({ username, password }: LoginDto): Promise<AuthRes> {}
+
+  async signup({}: SignupDto): Promise<AuthRes> {}
 }
