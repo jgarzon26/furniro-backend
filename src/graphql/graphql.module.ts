@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule as GraphQLModuleBase } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { generatedPath, typePaths } from '../constants.js';
-import { GQLContext } from '../types.js';
+import { generatedPath, typePaths } from 'src/constants.js';
 import { Request, Response } from 'express';
 
 @Module({
@@ -15,10 +14,9 @@ import { Request, Response } from 'express';
         path: generatedPath,
         outputAs: 'class',
       },
-      context: ({ req, res }: { req: Request; res: Response }): GQLContext => ({
+      context: ({ req, res }: { req: Request; res: Response }) => ({
         req,
         res,
-        //TODO: set the uid from token
       }),
     }),
   ],
