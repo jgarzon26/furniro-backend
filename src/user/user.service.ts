@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User } from './user.schema.js';
 import { InjectModel } from '@nestjs/mongoose';
-import { SignupInput } from '../graphql.js';
+import { SignupInput } from 'src/graphql.js';
 
 @Injectable()
 export class UserService {

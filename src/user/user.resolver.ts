@@ -1,9 +1,9 @@
 import { Context, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from './user.service.js';
-import { type GQLContext } from '../types.js';
-import { AuthGuard } from '../guards/auth.guard.js';
+import { type GQLContext } from 'src/types.js';
+import { AuthGuard } from 'src/guards/auth.guard.js';
 import { UseGuards } from '@nestjs/common';
-import { User } from '../graphql.js';
+import { User } from 'src/graphql.js';
 
 @Resolver('User')
 export class UserResolver {

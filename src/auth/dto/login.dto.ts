@@ -1,5 +1,5 @@
 import { IsNotEmpty, Min } from 'class-validator';
-import { LoginInput } from '../../graphql.js';
+import { LoginInput } from 'src/graphql.js';
 
 export class LoginDto implements LoginInput {
   @IsNotEmpty()

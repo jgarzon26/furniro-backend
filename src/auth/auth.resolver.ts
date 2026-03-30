@@ -2,7 +2,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { LoginDto } from './dto/login.dto.js';
 import { SignupDto } from './dto/signup.dto.js';
 import { AuthService } from './auth.service.js';
-import { AuthRes } from '../graphql.js';
+import { AuthRes } from 'src/graphql.js';
 
 @Resolver('Auth')
 export class AuthResolver {

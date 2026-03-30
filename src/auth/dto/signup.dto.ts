@@ -1,5 +1,5 @@
 import { IsEmail, IsNotEmpty, Min } from 'class-validator';
-import { SignupInput } from '../../graphql.js';
+import { SignupInput } from 'src/graphql.js';
 
 export class SignupDto implements SignupInput {
   @IsEmail()
