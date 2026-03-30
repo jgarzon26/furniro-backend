@@ -1,11 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User } from './user.schema.js';
 import { InjectModel } from '@nestjs/mongoose';
-import { GraphQLError } from 'graphql';
-import { LoginDto } from './dto/login.dto.js';
-import { SignupDto } from './dto/signup.dto.js';
-import { AuthRes } from '../graphql.js';
+import { SignupInput } from '../graphql.js';
 
 @Injectable()
 export class UserService {
@@ -14,17 +11,36 @@ export class UserService {
     private userModel: Model<User>,
   ) {}
 
-  async getCurrentUser(uid?: string) {
-    const user = await this.userModel.findById(uid);
+  async getUser({
+    email,
+    uid,
+    username,
+  }: {
+    uid?: string;
+    email?: string;
+    username?: string;
+  }) {
+    const user = await this.userModel.findOne({ id: uid, email, username });
 
     if (!user) {
-      throw new GraphQLError('No user inputted or existed');
+      throw new NotFoundException('user');
     }
 
     return user;
   }
 
-  async login({ username, password }: LoginDto): Promise<AuthRes> {}
+  async getCurrentUser(uid?: string) {
+    const user = await this.getUser({ uid });
+    return user;
+  }
 
-  async signup({}: SignupDto): Promise<AuthRes> {}
+  async createUser({ email, password, username }: SignupInput) {
+    const user = new this.userModel({
+      email,
+      password,
+      username,
+    });
+
+    return user.save();
+  }
 }

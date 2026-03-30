@@ -1,0 +1,23 @@
+type AuthRes {
+  token: String!
+  message: String
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+input SignupInput {
+  username: String!
+  password: String!
+  email: String!
+}
+
+extend type Query {
+  login(input: LoginInput!): AuthRes!
+}
+
+extend type Mutation {
+  signup(input: SignupInput!): AuthRes!
+}
