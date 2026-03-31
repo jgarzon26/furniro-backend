@@ -8,11 +8,12 @@ export class LocalAuthGuard extends AuthGuard('local') {
   getRequest(context: ExecutionContext) {
     const gqlExecutionContext = GqlExecutionContext.create(context);
     const gqlContext = gqlExecutionContext.getContext<GQLContext>();
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const gqlArgs = gqlExecutionContext.getArgs();
+    const gqlArgs = gqlExecutionContext.getArgs<{
+      input: { username: string; password: string };
+    }>();
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    gqlContext.req.body = { ...gqlContext.req.body, ...gqlArgs };
+    gqlContext.req.body = { ...gqlContext.req.body, ...gqlArgs.input };
     return gqlContext.req;
   }
 }

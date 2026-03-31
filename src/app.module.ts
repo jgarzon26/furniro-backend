@@ -4,6 +4,7 @@ import { ProductModule } from './product/product.module.js';
 import { GraphQLModule } from './graphql/graphql.module.js';
 import { CategoryModule } from './category/category.module.js';
 import { UserModule } from './user/user.module.js';
+import { AuthModule } from './auth/auth.module.js';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UserModule } from './user/user.module.js';
     GraphQLModule,
     CategoryModule,
     ProductModule,
+    AuthModule,
     UserModule,
   ],
 })

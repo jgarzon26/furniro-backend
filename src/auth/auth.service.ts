@@ -1,8 +1,7 @@
 import { AuthRes } from 'src/graphql.js';
 import { LoginDto } from './dto/login.dto.js';
 import { SignupDto } from './dto/signup.dto.js';
-import { verify } from 'argon2';
-import { hash } from 'argon2';
+import { hash, verify } from 'argon2';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from 'src/user/user.service.js';
 import { Injectable } from '@nestjs/common';
@@ -21,9 +20,11 @@ export class AuthService {
   async validateUser({ username, password }: LoginDto) {
     const user = await this.userService.getUser({ username });
 
-    const isMatched = await verify(password, user?.password ?? '', {
-      secret: this.config.get('PASS_SECRET_KEY'),
-    });
+    if (!user) {
+      return null;
+    }
+
+    const isMatched = await verify(user.password, password);
 
     if (!isMatched) {
       return null;
@@ -44,7 +45,6 @@ export class AuthService {
   async signup({ email, password, username }: SignupDto): Promise<AuthRes> {
     const hashPass = await hash(password, {
       hashLength: 12,
-      secret: this.config.get('PASS_SECRET_KEY'),
     });
 
     const { id } = await this.userService.createUser({

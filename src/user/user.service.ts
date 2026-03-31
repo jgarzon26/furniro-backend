@@ -20,7 +20,9 @@ export class UserService {
     email?: string;
     username?: string;
   }) {
-    const user = await this.userModel.findOne({ id: uid, email, username });
+    const user = await this.userModel.findOne({
+      $or: [{ id: uid }, { email }, { username }],
+    });
 
     return user;
   }

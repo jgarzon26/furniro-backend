@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, Min } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { SignupInput } from 'src/graphql.js';
 
 export class SignupDto implements SignupInput {
@@ -8,6 +8,6 @@ export class SignupDto implements SignupInput {
   @IsNotEmpty()
   username: string;
 
-  @Min(8)
+  @MinLength(8)
   password: string;
 }
