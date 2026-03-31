@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { ProductResolver } from './product.resolver.js';
 import { ProductService } from './product.service.js';
 import { Product, ProductSchema } from './product.schema.js';
-import { MongoModule } from '../databases/mongo.module.js';
-import { MongooseModule } from '@nestjs/mongoose';
+import { MongoModule } from 'src/databases';
 
 @Module({
   imports: [

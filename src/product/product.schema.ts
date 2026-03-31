@@ -1,7 +1,7 @@
-import { Category, Product as ProductGQL } from '../graphql.js';
-import { Review } from './review.schema.js';
-import mongoose, { HydratedDocument } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Category, Product as ProductGQL } from 'src/graphql';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Review } from './review.schema.js';
 
 export type ProductDocument = HydratedDocument<Product>;
 

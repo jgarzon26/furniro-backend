@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule as GraphQLModuleBase } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { generatedPath, typePaths } from 'src/constants';
 import { Request, Response } from 'express';
+import { generatedPath, typePaths } from 'src/constants';
 
 @Module({
   imports: [

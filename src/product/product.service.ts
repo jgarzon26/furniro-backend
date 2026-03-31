@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { Product } from './product.schema.js';
-import { ProductsRes } from '../graphql.js';
-import { GraphQLError } from 'graphql';
-import { ProductDTO } from './dto/product.dto.js';
-import { ProductsOptionDTO } from './dto/product-options.dto.js';
 import { InjectModel } from '@nestjs/mongoose';
+import { GraphQLError } from 'graphql';
 import { Model } from 'mongoose';
-import { ProductsRelatedOptionsDto } from './dto/product-related-options.dto.js';
-import { ProductRandomOptionsDto } from './dto/product-random-options.dto.js';
+import {
+  ProductDTO,
+  ProductRandomOptionsDto,
+  ProductsOptionDTO,
+  ProductsRelatedOptionsDto,
+} from './dto';
+import { Product } from './product.schema.js';
+import { ProductsRes } from 'src/graphql';
 
 interface Metadata {
   totalCount: number;

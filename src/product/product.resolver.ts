@@ -1,9 +1,11 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
+import {
+  ProductDTO,
+  ProductRandomOptionsDto,
+  ProductsOptionDTO,
+  ProductsRelatedOptionsDto,
+} from './dto';
 import { ProductService } from './product.service.js';
-import { ProductsOptionDTO } from './dto/product-options.dto.js';
-import { ProductDTO } from './dto/product.dto.js';
-import { ProductsRelatedOptionsDto } from './dto/product-related-options.dto.js';
-import { ProductRandomOptionsDto } from './dto/product-random-options.dto.js';
 
 @Resolver('Product')
 export class ProductResolver {
