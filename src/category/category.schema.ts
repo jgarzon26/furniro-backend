@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Category as CategoryGQL } from '../graphql.js';
 import { HydratedDocument } from 'mongoose';
+import { Category as CategoryGQL } from 'src/graphql';
 
 export type CategoryDocument = HydratedDocument<Category>;
 

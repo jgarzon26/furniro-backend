@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { Category } from './category.schema.js';
 import { InjectModel } from '@nestjs/mongoose';
-import { CategoryDto } from './dto/category.dto.js';
+import { Model } from 'mongoose';
 import { GraphQLError } from 'graphql';
-import { AddCategoryDto } from './dto/addCategory.dto.js';
 import slugify from 'slugify';
+import { Category } from './category.schema.js';
+import { AddCategoryDto, CategoryDto } from './dto';
 
 @Injectable()
 export class CategoryService {
@@ -30,7 +29,7 @@ export class CategoryService {
   async addCategory({ title }: AddCategoryDto): Promise<boolean> {
     const category = new this.categoryModel({
       title,
-      slug: slugify.default(title, { lower: true, trim: true }),
+      slug: slugify(title, { lower: true, trim: true }),
     });
 
     await category.save();

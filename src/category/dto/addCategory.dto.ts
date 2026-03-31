@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { AddCategoryInput } from '../../graphql.js';
+import { AddCategoryInput } from 'src/graphql';
 
 export class AddCategoryDto implements AddCategoryInput {
   @IsString()
