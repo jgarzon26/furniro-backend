@@ -7,6 +7,6 @@ export interface GQLContext {
 }
 
 export type JwtPayload = {
-  sub: any;
+  sub: string;
   username: string;
 };
