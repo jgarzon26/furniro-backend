@@ -1,13 +1,11 @@
-import { AuthRes } from 'src/graphql.js';
-import { LoginDto } from './dto/login.dto.js';
-import { SignupDto } from './dto/signup.dto.js';
-import { hash, verify } from 'argon2';
-import { ConfigService } from '@nestjs/config';
-import { UserService } from 'src/user/user.service.js';
 import { Injectable } from '@nestjs/common';
-import type { UserDocument } from 'src/user/user.schema.js';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from 'src/types.js';
+import { hash, verify } from 'argon2';
+import { LoginDto, SignupDto } from './dto';
+import { AuthRes } from 'src/graphql';
+import { JwtPayload } from 'src/types';
+import { UserDocument, UserService } from 'src/user';
 
 @Injectable()
 export class AuthService {

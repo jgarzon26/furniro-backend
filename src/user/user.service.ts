@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { User } from './user.schema.js';
 import { InjectModel } from '@nestjs/mongoose';
-import { SignupInput } from 'src/graphql.js';
+import { Model } from 'mongoose';
+import { User } from './user.schema';
+import { SignupInput } from 'src/graphql';
 
 @Injectable()
 export class UserService {

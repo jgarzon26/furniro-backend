@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MongoModule } from 'src/databases/mongo.module.js';
-import { User, UserSchema } from './user.schema.js';
-import { UserResolver } from './user.resolver.js';
-import { UserService } from './user.service.js';
+import { User, UserSchema } from './user.schema';
+import { UserResolver } from './user.resolver';
+import { UserService } from './user.service';
+import { MongoModule } from 'src/databases/mongo.module';
 
 @Module({
   imports: [

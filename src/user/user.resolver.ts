@@ -1,9 +1,9 @@
-import { Query, Resolver } from '@nestjs/graphql';
-import { UserService } from './user.service.js';
 import { UseGuards } from '@nestjs/common';
+import { Query, Resolver } from '@nestjs/graphql';
+import { UserService } from './user.service';
+import type { UserDocument } from './user.schema';
 import { JwtGuard } from 'src/guards';
-import { CurrentUser } from './decorators/current-user.js';
-import type { UserDocument } from './user.schema.js';
+import { CurrentUser } from 'src/decorators';
 
 @Resolver('User')
 export class UserResolver {

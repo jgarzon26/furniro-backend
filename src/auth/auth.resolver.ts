@@ -1,11 +1,11 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { SignupDto } from './dto/signup.dto.js';
-import { AuthService } from './auth.service.js';
-import { AuthRes } from 'src/graphql.js';
 import { UseGuards } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { AuthService } from './auth.service';
+import { SignupDto } from './dto';
+import { AuthRes } from 'src/graphql';
 import { LocalAuthGuard } from 'src/guards';
-import { CurrentUser } from 'src/user';
-import type { UserDocument } from 'src/user/user.schema.js';
+import { CurrentUser } from 'src/decorators';
+import type { UserDocument } from 'src/user';
 
 @Resolver('Auth')
 export class AuthResolver {
