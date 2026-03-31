@@ -5,27 +5,40 @@ import { verify } from 'argon2';
 import { hash } from 'argon2';
 import { ConfigService } from '@nestjs/config';
 import { UserService } from 'src/user/user.service.js';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import type { UserDocument } from 'src/user/user.schema.js';
+import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from 'src/types.js';
 
 @Injectable()
 export class AuthService {
   constructor(
     private config: ConfigService,
     private userService: UserService,
+    private jwtService: JwtService,
   ) {}
 
-  async login({ username, password }: LoginDto): Promise<AuthRes> {
+  async validateUser({ username, password }: LoginDto) {
     const user = await this.userService.getUser({ username });
 
-    const isMatched = await verify(password, user.password, {
+    const isMatched = await verify(password, user?.password ?? '', {
       secret: this.config.get('PASS_SECRET_KEY'),
     });
 
     if (!isMatched) {
-      throw new UnauthorizedException();
+      return null;
     }
 
-    //TODO: create token
+    return user;
+  }
+
+  login(user: UserDocument): AuthRes {
+    const payload: JwtPayload = { sub: user.id, username: user.username };
+    const token = this.jwtService.sign(payload);
+    return {
+      token,
+      message: 'Logged in successfully',
+    };
   }
 
   async signup({ email, password, username }: SignupDto): Promise<AuthRes> {
@@ -40,6 +53,10 @@ export class AuthService {
       password: hashPass,
     });
 
-    //TODO: create token
+    const payload: JwtPayload = { sub: id, username };
+    return {
+      token: this.jwtService.sign(payload),
+      message: 'Sign Up successfully',
+    };
   }
 }

@@ -1,18 +1,18 @@
-import { Context, Query, Resolver } from '@nestjs/graphql';
+import { Query, Resolver } from '@nestjs/graphql';
 import { UserService } from './user.service.js';
-import { type GQLContext } from 'src/types.js';
-import { AuthGuard } from 'src/guards/auth.guard.js';
 import { UseGuards } from '@nestjs/common';
-import { User } from 'src/graphql.js';
+import { JwtGuard } from 'src/guards';
+import { CurrentUser } from './decorators/current-user.js';
+import type { UserDocument } from './user.schema.js';
 
 @Resolver('User')
 export class UserResolver {
   constructor(private userService: UserService) {}
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtGuard)
   @Query('user')
-  getCurrentUser(@Context() context: GQLContext): Promise<User> {
-    const { uid } = context;
-    return this.userService.getCurrentUser(uid);
+  getCurrentUser(@CurrentUser() user: UserDocument) {
+    const { id } = user;
+    return this.userService.getCurrentUser(id);
   }
 }
