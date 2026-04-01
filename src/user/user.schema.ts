@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Cart, User as UserGQL } from 'src/graphql';
+import { User as UserGQL } from 'src/graphql';
+import { Cart } from './cart.schema';
 
 export type UserDocument = HydratedDocument<User>;
 

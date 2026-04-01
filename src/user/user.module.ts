@@ -4,19 +4,15 @@ import { User, UserSchema } from './user.schema';
 import { UserResolver } from './user.resolver';
 import { UserService } from './user.service';
 import { MongoModule } from 'src/databases';
-import { JwtGuard } from 'src/guards';
-import { APP_GUARD } from '@nestjs/core';
+import { ProductModule } from 'src/product';
 
 @Module({
   imports: [
     MongoModule,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    ProductModule,
   ],
-  providers: [
-    UserResolver,
-    UserService,
-    { provide: APP_GUARD, useClass: JwtGuard },
-  ],
+  providers: [UserResolver, UserService],
   exports: [UserService],
 })
 export class UserModule {}

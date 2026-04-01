@@ -11,5 +11,6 @@ import { MongoModule } from 'src/databases';
     MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
   ],
   providers: [ProductResolver, ProductService],
+  exports: [ProductService],
 })
 export class ProductModule {}

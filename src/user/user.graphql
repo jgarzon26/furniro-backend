@@ -18,11 +18,16 @@ input RemoveCartInput {
   isDelete: Boolean
 }
 
+type CartUpdateRes {
+  cart: Cart!
+  message: String
+}
+
 extend type Query {
   user: User!
 }
 
 extend type Mutation {
-  addToCart(input: AddCartInput!): Cart!
-  removeFromCart(input: RemoveCartInput!): Cart!
+  addToCart(input: AddCartInput!): CartUpdateRes!
+  removeFromCart(input: RemoveCartInput!): CartUpdateRes!
 }
