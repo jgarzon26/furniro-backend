@@ -8,6 +8,21 @@ type User {
   cart: Cart!
 }
 
+input AddCartInput {
+  sku: String!
+  quantity: Int
+}
+
+input RemoveCartInput {
+  sku: String!
+  isDelete: Boolean
+}
+
 extend type Query {
   user: User!
+}
+
+extend type Mutation {
+  addToCart(input: AddCartInput!): Cart!
+  removeFromCart(input: RemoveCartInput!): Cart!
 }

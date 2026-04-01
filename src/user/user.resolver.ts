@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import type { UserDocument } from './user.schema';
 import { CurrentUser } from 'src/decorators';
@@ -12,4 +12,10 @@ export class UserResolver {
     const { id } = user;
     return this.userService.getCurrentUser(id);
   }
+
+  @Mutation()
+  addToCart() {}
+
+  @Mutation()
+  removeFromCart() {}
 }

@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from './user.schema';
+import { User, UserDocument } from './user.schema';
 import { SignupInput } from 'src/graphql';
+import { AddCartInputDto, RemoveCartInputDto } from './dto';
 
 @Injectable()
 export class UserService {
@@ -41,4 +42,18 @@ export class UserService {
 
     return user.save();
   }
+
+  async addToCart({ sku, quantity, cart }: AddCartInputDto & UserDocument) {
+    /*
+      Check if the sku is found in the array of cartItems
+      If exist, add quantity
+      Otherwise, init CartItem
+    */
+  }
+
+  async removeFromCart({
+    sku,
+    isDelete,
+    cart,
+  }: RemoveCartInputDto & UserDocument) {}
 }
