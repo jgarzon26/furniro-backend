@@ -84,13 +84,14 @@ export class UserService {
 
     if (itemIndex < 0) {
       const product = await this.productService.getProductBySku(sku);
-      const newItem = new CartItem();
-      newItem.product = product;
-      newItem.quantity = 1;
+      const newItem: CartItem = {
+        product,
+        quantity: 1,
+      };
       updatedItems = [...cartItems, newItem];
     } else {
       const cartItem = cartItems[itemIndex];
-      cartItem[itemIndex] = {
+      cartItems[itemIndex] = {
         ...cartItem,
         quantity: quantity ?? cartItem.quantity + 1,
       };

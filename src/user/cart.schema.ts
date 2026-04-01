@@ -1,8 +1,9 @@
 import { Cart as CartGql } from 'src/graphql';
 import { CartItem } from './cart-item.schema';
-import { Prop } from '@nestjs/mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 
+@Schema()
 export class Cart implements CartGql {
-  @Prop([CartItem])
+  @Prop({ type: () => [CartItem], default: [] })
   items: CartItem[];
 }
