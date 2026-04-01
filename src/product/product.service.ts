@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { GraphQLError } from 'graphql';
 import { Model } from 'mongoose';
@@ -84,6 +84,18 @@ export class ProductService {
 
     if (!product) {
       throw new GraphQLError(`Product ${slug} does not exist`);
+    }
+
+    return product;
+  }
+
+  async getProductBySku(sku: string): Promise<Product> {
+    const product = await this.productModel
+      .findOne({ sku })
+      .populate('category');
+
+    if (!product) {
+      throw new NotFoundException(`Product ${sku} does not exist`);
     }
 
     return product;
