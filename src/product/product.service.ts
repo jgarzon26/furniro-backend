@@ -10,6 +10,8 @@ import {
 } from './dto';
 import { Product } from './product.schema.js';
 import { ProductsRes } from 'src/graphql';
+import { PopulatedProduct } from './types';
+import { Product as ProductGql } from 'src/graphql';
 
 interface Metadata {
   totalCount: number;
@@ -28,7 +30,9 @@ export class ProductService {
     search,
   }: ProductsOptionDTO): Promise<ProductsRes> {
     if (!page || !itemsPerPage) {
-      const products = await this.productModel.find();
+      const products = await this.productModel
+        .find()
+        .populate<PopulatedProduct>('category');
       return {
         items: products,
       };
@@ -37,7 +41,7 @@ export class ProductService {
     const sanitizedSearch = search?.trim().toLowerCase() ?? '';
     const productsRes = await this.productModel.aggregate<{
       metadata: Array<Metadata> | [];
-      data: Product[];
+      data: Array<PopulatedProduct>;
     }>([
       {
         $match: {
@@ -62,6 +66,12 @@ export class ProductService {
           data: [
             { $skip: (page - 1) * itemsPerPage },
             { $limit: itemsPerPage },
+            {
+              $lookup: {
+                from: 'category',
+                as: 'category',
+              },
+            },
           ],
         },
       },
@@ -77,10 +87,10 @@ export class ProductService {
     };
   }
 
-  async getProductBySlug({ slug }: ProductDTO): Promise<Product> {
+  async getProductBySlug({ slug }: ProductDTO): Promise<ProductGql> {
     const product = await this.productModel
       .findOne({ slug })
-      .populate('category');
+      .populate<PopulatedProduct>('category');
 
     if (!product) {
       throw new GraphQLError(`Product ${slug} does not exist`);
@@ -89,26 +99,32 @@ export class ProductService {
     return product;
   }
 
-  async getProductBySku(sku: string): Promise<Product> {
-    const product = await this.productModel
-      .findOne({ sku })
-      .populate('category');
+  async getProductBySku(sku: string, isPopulate = false) {
+    const product = await this.productModel.findOne({ sku });
 
     if (!product) {
       throw new NotFoundException(`Product ${sku} does not exist`);
+    }
+
+    if (isPopulate) {
+      return await this.productModel.populate<PopulatedProduct>(product, {
+        path: 'category',
+      });
     }
 
     return product;
   }
 
   async getRelatedProducts({ slug, limit }: ProductsRelatedOptionsDto) {
-    const currentProduct = await this.productModel.findOne(
-      { slug },
-      {
-        category: 1,
-        tags: 1,
-      },
-    );
+    const currentProduct = await this.productModel
+      .findOne(
+        { slug },
+        {
+          category: 1,
+          tags: 1,
+        },
+      )
+      .populate<PopulatedProduct>('category');
     const tags = currentProduct?.tags;
     const category = currentProduct?.category;
 

@@ -7,6 +7,8 @@ import { AddCartInputDto, RemoveCartInputDto } from './dto';
 import { CartItem } from './cart-item.schema';
 import { ProductService } from 'src/product';
 import { Cart } from './cart.schema';
+import { Category } from 'src/category';
+import { PopulatedUser } from './types';
 
 @Injectable()
 export class UserService {
@@ -61,7 +63,10 @@ export class UserService {
       : ([] as CartItem[]);
 
     const cartItems = [...prevCartItems];
-    const itemIndex = cartItems.findIndex((item) => item.product.sku === sku);
+    const product = await this.productService.getProductBySku(sku);
+    const itemIndex = cartItems.findIndex((item) =>
+      item.product._id.equals(product._id),
+    );
     return {
       cartItems,
       itemIndex,
@@ -71,7 +76,13 @@ export class UserService {
   private async populateCart(user: UserDocument, updatedItems: CartItem[]) {
     user.cart.items = [...updatedItems];
     const updatedUser = await user.save();
-    const { cart } = updatedUser;
+    const { cart } = await updatedUser.populate<PopulatedUser>({
+      path: 'cart.items.product',
+      populate: {
+        path: 'category',
+        model: Category.name,
+      },
+    });
     return cart;
   }
 
@@ -85,7 +96,7 @@ export class UserService {
     if (itemIndex < 0) {
       const product = await this.productService.getProductBySku(sku);
       const newItem: CartItem = {
-        product,
+        product: product._id,
         quantity: 1,
       };
       updatedItems = [...cartItems, newItem];
@@ -113,14 +124,24 @@ export class UserService {
     let updatedItems: CartItem[] = [];
 
     if (itemIndex < 0) {
+      const userPopulated = await user.populate<PopulatedUser>({
+        path: 'cart.items.product',
+        populate: {
+          path: 'category',
+          model: Category.name,
+        },
+      });
       return {
-        cart: user.cart,
+        cart: userPopulated.cart,
         message: 'Failed to update cart',
       };
     }
 
     if (isDelete) {
-      updatedItems = cartItems.filter((item) => item.product.sku !== sku);
+      const product = await this.productService.getProductBySku(sku);
+      updatedItems = cartItems.filter(
+        (item) => !item.product._id.equals(product._id),
+      );
     } else {
       const cartItem = cartItems[itemIndex];
       cartItems[itemIndex] = {
