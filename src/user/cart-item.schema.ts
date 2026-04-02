@@ -1,13 +1,12 @@
 import { Prop, Schema } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
-import { CartItem as CartItemGql, Product } from 'src/graphql';
+import mongoose, { HydratedDocument, Types } from 'mongoose';
 
 export type CartItemDocument = HydratedDocument<CartItem>;
 
 @Schema()
-export class CartItem implements CartItemGql {
+export class CartItem {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Product' })
-  product: Product;
+  product: Types.ObjectId;
 
   @Prop({ default: 1 })
   quantity: number;

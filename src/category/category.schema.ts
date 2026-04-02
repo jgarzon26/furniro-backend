@@ -1,11 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Category as CategoryGQL } from 'src/graphql';
 
 export type CategoryDocument = HydratedDocument<Category>;
 
 @Schema()
-export class Category implements CategoryGQL {
+export class Category {
   @Prop({ unique: true })
   slug: string;
 

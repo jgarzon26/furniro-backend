@@ -1,15 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Category, Product as ProductGQL } from 'src/graphql';
 import mongoose, { HydratedDocument } from 'mongoose';
 import { Review } from './review.schema.js';
 
 export type ProductDocument = HydratedDocument<Product>;
 
 @Schema()
-export class Product implements ProductGQL {
-  @Prop({ _id: true })
-  id: string;
-
+export class Product {
   @Prop({ unique: true })
   sku: string;
 
@@ -35,7 +31,7 @@ export class Product implements ProductGQL {
   discountedPrice?: number;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
-  category: Category;
+  category: string;
 
   @Prop([String])
   images: string[];

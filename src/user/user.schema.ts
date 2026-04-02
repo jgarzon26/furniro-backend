@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { User as UserGQL } from 'src/graphql';
 import { Cart } from './cart.schema';
 
 export type UserDocument = HydratedDocument<User>;
@@ -14,10 +13,7 @@ export enum UserRole {
 @Schema({
   timestamps: true,
 })
-export class User implements UserGQL {
-  @Prop({ _id: true })
-  id: string;
-
+export class User {
   @Prop({ unique: true })
   username: string;
 
