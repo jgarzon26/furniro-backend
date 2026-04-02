@@ -69,6 +69,8 @@ export class ProductService {
             {
               $lookup: {
                 from: 'category',
+                localField: 'category',
+                foreignField: '_id',
                 as: 'category',
               },
             },

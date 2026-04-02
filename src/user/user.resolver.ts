@@ -13,9 +13,12 @@ export class UserResolver {
 
   @UseGuards(JwtGuard)
   @Query('user')
-  getCurrentUser(@CurrentUser() user: JwtPayload) {
+  async getCurrentUser(@CurrentUser() user: JwtPayload) {
     const { sub } = user;
-    return this.userService.getCurrentUser(sub);
+    const populatedUser = (
+      await this.userService.getCurrentUser(sub)
+    )?.populate('cart.items.product');
+    return populatedUser;
   }
 
   @UseGuards(JwtGuard)

@@ -1,8 +1,10 @@
 import { CartItem } from './cart-item.schema';
 import { Prop, Schema } from '@nestjs/mongoose';
 
-@Schema()
+@Schema({
+  _id: false,
+})
 export class Cart {
-  @Prop({ type: () => [CartItem], default: [] })
+  @Prop({ type: [CartItem], default: [] })
   items: CartItem[];
 }

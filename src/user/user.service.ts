@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument } from './user.schema';
+import { User, UserDocument, UserRole } from './user.schema';
 import { CartUpdateRes, SignupInput } from 'src/graphql';
 import { AddCartInputDto, RemoveCartInputDto } from './dto';
 import { CartItem } from './cart-item.schema';
 import { ProductService } from 'src/product';
-import { Cart } from './cart.schema';
 import { Category } from 'src/category';
 import { PopulatedUser } from './types';
 
@@ -28,7 +27,7 @@ export class UserService {
     username?: string;
   }) {
     const user = await this.userModel.findOne({
-      $or: [{ id: uid }, { email }, { username }],
+      $or: [{ _id: uid }, { email }, { username }],
     });
 
     return user;
@@ -39,15 +38,17 @@ export class UserService {
     return user;
   }
 
-  async createUser({ email, password, username }: SignupInput) {
-    const cart = new Cart();
-    cart.items = [];
-
+  async createUser({
+    email,
+    password,
+    username,
+    role,
+  }: SignupInput & { role?: UserRole }) {
     const user = new this.userModel({
       email,
       password,
       username,
-      cart,
+      role,
     });
 
     return user.save();

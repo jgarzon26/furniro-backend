@@ -35,7 +35,12 @@ export class User {
   @Prop({ type: String, enum: UserRole, default: UserRole.User })
   role: UserRole;
 
-  @Prop(Cart)
+  @Prop({
+    type: Cart,
+    default: {
+      items: [],
+    },
+  })
   cart: Cart;
 }
 
