@@ -45,6 +45,7 @@ export class CheckoutService {
     }
 
     const checkout = new this.checkoutModel({
+      orderId: generateOrderId(),
       items: checkoutItems,
       address,
       user: ownerId,
