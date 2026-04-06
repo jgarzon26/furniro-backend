@@ -1,0 +1,34 @@
+enum CheckoutStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+type Checkout {
+  id: ID
+  items: [CheckoutItem!]!
+  status: CheckoutStatus!
+}
+
+type CheckoutItem {
+  product: Product!
+  quantity: Int!
+  price: Float!
+}
+
+input AddCheckoutInput {
+  sku: String!
+  quantity: Int!
+}
+
+extend type Query {
+  checkout: Checkout!
+}
+
+extend type Mutation {
+  checkout(input: [AddCheckoutInput!]!): Checkout!
+}
