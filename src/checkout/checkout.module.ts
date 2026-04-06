@@ -4,10 +4,14 @@ import { MongoModule } from 'src/databases';
 import { Checkout, CheckoutSchema } from './checkout.entity';
 import { CheckoutResolver } from './checkout.resolver';
 import { CheckoutService } from './checkout.service';
+import { UserModule } from 'src/user';
+import { ProductModule } from 'src/product';
 
 @Module({
   imports: [
     MongoModule,
+    UserModule,
+    ProductModule,
     MongooseModule.forFeature([
       { name: Checkout.name, schema: CheckoutSchema },
     ]),
