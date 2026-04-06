@@ -2,11 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model, Types } from 'mongoose';
 import { Checkout } from './checkout.entity';
 import { InjectModel } from '@nestjs/mongoose';
-import { AddCheckoutInputDto } from './dto';
+import { AddCheckoutInputDto, ChangeOrderStatusInputDto } from './dto';
 import { PopulatedCheckout } from './types';
 import { Checkout as CheckoutGql } from 'src/graphql';
 import { ProductService } from 'src/product';
 import { CheckoutItem } from './checkout-item.entity';
+import { generateOrderId } from 'src/util/id-generator';
 
 @Injectable()
 export class CheckoutService {
@@ -57,5 +58,16 @@ export class CheckoutService {
       'items.product.category',
     ]);
     return populatedCheckout;
+  }
+
+  async changeOrderStatus({ orderId, status }: ChangeOrderStatusInputDto) {
+    const order = await this.checkoutModel.findOne({ orderId });
+    if (!order) {
+      throw new NotFoundException(`Order ${orderId} does not exist`);
+    }
+
+    order.status = status;
+    await order.save();
+    return true;
   }
 }

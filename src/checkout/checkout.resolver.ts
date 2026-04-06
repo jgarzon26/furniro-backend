@@ -5,7 +5,7 @@ import { JwtGuard } from 'src/guards';
 import { CurrentUser } from 'src/decorators';
 import type { JwtPayload } from 'src/types';
 import { UserService } from 'src/user';
-import { AddCheckoutInputDto } from './dto';
+import { AddCheckoutInputDto, ChangeOrderStatusInputDto } from './dto';
 
 @UseGuards(JwtGuard)
 @Resolver()
@@ -36,5 +36,10 @@ export class CheckoutResolver {
     }
 
     return this.checkoutService.checkout(user._id, input);
+  }
+
+  @Mutation('orderStatus')
+  async changeOrderStatus(@Args('input') input: ChangeOrderStatusInputDto) {
+    return this.checkoutService.changeOrderStatus(input);
   }
 }

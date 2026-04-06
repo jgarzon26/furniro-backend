@@ -30,10 +30,16 @@ input AddCheckoutInput {
   address: String!
 }
 
+input ChangeOrderStatusInput {
+  orderId: ID!
+  status: CheckoutStatus!
+}
+
 extend type Query {
   checkout: Checkout!
 }
 
 extend type Mutation {
   checkout(input: AddCheckoutInput!): Checkout!
+  orderStatus(input: ChangeOrderStatusInput!): Boolean
 }
