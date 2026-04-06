@@ -20,9 +20,14 @@ type CheckoutItem {
   price: Float!
 }
 
-input AddCheckoutInput {
+type CheckoutInputType {
   sku: String!
   quantity: Int!
+}
+
+input AddCheckoutInput {
+  items: [CheckoutInputType!]!
+  address: String!
 }
 
 extend type Query {
@@ -30,5 +35,5 @@ extend type Query {
 }
 
 extend type Mutation {
-  checkout(input: [AddCheckoutInput!]!): Checkout!
+  checkout(input: AddCheckoutInput!): Checkout!
 }
