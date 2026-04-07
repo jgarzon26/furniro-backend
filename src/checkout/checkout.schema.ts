@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, Types } from 'mongoose';
 import { CheckoutStatus } from 'src/graphql';
 import { CheckoutItem } from './checkout-item.entity';
+import { Field } from '@nestjs/graphql';
 
 export type CheckoutDocument = HydratedDocument<Checkout>;
 
@@ -21,6 +22,10 @@ export class Checkout {
 
   @Prop({ type: [CheckoutItem], default: [] })
   items: CheckoutItem[];
+
+  @Prop()
+  @Field(() => Date)
+  createdAt: Date;
 }
 
 export const CheckoutSchema = SchemaFactory.createForClass(Checkout);

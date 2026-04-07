@@ -33,7 +33,14 @@ export class CheckoutService {
       throw new NotFoundException();
     }
 
-    return checkout;
+    const data = {
+      ...checkout.toJSON(),
+      date: checkout.createdAt.toDateString(),
+    };
+
+    console.log(data);
+
+    return data;
   }
 
   async checkout(
@@ -60,15 +67,20 @@ export class CheckoutService {
     });
 
     const createdCheckout = await checkout.save();
-    const populatedCheckout = createdCheckout.populate<PopulatedCheckout>({
-      path: 'items.product',
-      populate: {
-        path: 'category',
-        model: Category.name,
+    const populatedCheckout = await createdCheckout.populate<PopulatedCheckout>(
+      {
+        path: 'items.product',
+        populate: {
+          path: 'category',
+          model: Category.name,
+        },
       },
-    });
+    );
 
-    return populatedCheckout;
+    return {
+      ...populatedCheckout.toJSON(),
+      date: populatedCheckout.createdAt.toDateString(),
+    };
   }
 
   async changeOrderStatus({ orderId, status }: ChangeOrderStatusInputDto) {

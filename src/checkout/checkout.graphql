@@ -12,6 +12,7 @@ type Checkout {
   id: ID
   items: [CheckoutItem!]!
   status: CheckoutStatus!
+  date: String!
 }
 
 type CheckoutItem {
