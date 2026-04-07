@@ -14,7 +14,6 @@ export class AuthResolver {
   @Query('login')
   @UseGuards(LocalAuthGuard)
   login(@CurrentUser() user: UserJSON): AuthRes {
-    console.log(user);
     const { _id, username } = user;
     return this.authService.login(_id.toString(), username);
   }

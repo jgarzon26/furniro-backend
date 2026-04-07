@@ -26,12 +26,12 @@ export class CheckoutResolver {
   }
 
   @UseGuards(JwtGuard)
-  @Mutation()
+  @Mutation('checkout')
   async checkout(
     @CurrentUser() { sub }: JwtPayload,
     @Args('input') input: AddCheckoutInputDto,
   ) {
-    const user = await this.userService.getUser({ uid: sub });
+    const user = await this.userService.getCurrentUser(sub);
     if (!user) {
       throw new NotFoundException('User does not exist');
     }
