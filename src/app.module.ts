@@ -5,6 +5,7 @@ import { GraphQLModule } from './graphql/graphql.module.js';
 import { CategoryModule } from './category/category.module.js';
 import { UserModule } from './user/user.module.js';
 import { AuthModule } from './auth/auth.module.js';
+import { CheckoutModule } from './checkout';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AuthModule } from './auth/auth.module.js';
     ProductModule,
     AuthModule,
     UserModule,
+    CheckoutModule,
   ],
 })
 export class AppModule {}
