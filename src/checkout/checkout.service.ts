@@ -38,8 +38,6 @@ export class CheckoutService {
       date: checkout.createdAt.toDateString(),
     };
 
-    console.log(data);
-
     return data;
   }
 
