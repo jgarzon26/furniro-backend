@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model, Types } from 'mongoose';
-import { Checkout } from './checkout.entity';
+import { Checkout } from './checkout.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { AddCheckoutInputDto, ChangeOrderStatusInputDto } from './dto';
 import { PopulatedCheckout } from './types';
@@ -52,11 +52,16 @@ export class CheckoutService {
       user: ownerId,
     });
 
+    /* console.log(checkout); */
+
     const createdCheckout = await checkout.save();
     const populatedCheckout = createdCheckout.populate<PopulatedCheckout>([
       'items.product',
       'items.product.category',
     ]);
+
+    //console.log(populatedCheckout);
+
     return populatedCheckout;
   }
 

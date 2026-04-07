@@ -20,7 +20,7 @@ type CheckoutItem {
   price: Float!
 }
 
-type CheckoutInputType {
+input CheckoutInputType {
   sku: String!
   quantity: Int!
 }

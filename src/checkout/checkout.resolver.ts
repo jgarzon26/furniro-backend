@@ -7,14 +7,14 @@ import type { JwtPayload } from 'src/types';
 import { UserService } from 'src/user';
 import { AddCheckoutInputDto, ChangeOrderStatusInputDto } from './dto';
 
-@UseGuards(JwtGuard)
-@Resolver()
+@Resolver('Checkout')
 export class CheckoutResolver {
   constructor(
     private checkoutService: CheckoutService,
     private userService: UserService,
   ) {}
 
+  @UseGuards(JwtGuard)
   @Query('checkout')
   async getCheckout(@CurrentUser() { sub }: JwtPayload) {
     const user = await this.userService.getUser({ uid: sub });
@@ -25,7 +25,8 @@ export class CheckoutResolver {
     return this.checkoutService.getCheckout(user._id);
   }
 
-  @Mutation('checkout')
+  @UseGuards(JwtGuard)
+  @Mutation()
   async checkout(
     @CurrentUser() { sub }: JwtPayload,
     @Args('input') input: AddCheckoutInputDto,
@@ -38,6 +39,7 @@ export class CheckoutResolver {
     return this.checkoutService.checkout(user._id, input);
   }
 
+  @UseGuards(JwtGuard)
   @Mutation('orderStatus')
   async changeOrderStatus(@Args('input') input: ChangeOrderStatusInputDto) {
     return this.checkoutService.changeOrderStatus(input);

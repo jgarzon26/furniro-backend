@@ -1,10 +1,4 @@
-import {
-  ArrayMinSize,
-  IsArray,
-  IsNotEmpty,
-  IsNumber,
-  Min,
-} from 'class-validator';
+import { ArrayMinSize, IsArray, IsNotEmpty, Min } from 'class-validator';
 import { AddCheckoutInput, CheckoutInputType } from 'src/graphql';
 
 export class AddCheckoutInputDto implements AddCheckoutInput {
@@ -20,7 +14,6 @@ class CheckoutInputTypeDto implements CheckoutInputType {
   @IsNotEmpty()
   sku: string;
 
-  @IsNumber()
   @Min(1)
   quantity: number;
 }
