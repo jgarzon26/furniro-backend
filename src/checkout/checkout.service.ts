@@ -8,6 +8,7 @@ import { Checkout as CheckoutGql } from 'src/graphql';
 import { ProductService } from 'src/product';
 import { CheckoutItem } from './checkout-item.entity';
 import { generateOrderId } from 'src/util/id-generator';
+import { Category } from 'src/category';
 
 @Injectable()
 export class CheckoutService {
@@ -20,7 +21,13 @@ export class CheckoutService {
   async getCheckout(ownerId?: Types.ObjectId): Promise<CheckoutGql> {
     const checkout = await this.checkoutModel
       .findOne({ user: ownerId })
-      .populate<PopulatedCheckout>(['items.product', 'items.product.category']);
+      .populate<PopulatedCheckout>({
+        path: 'items.product',
+        populate: {
+          path: 'category',
+          model: Category.name,
+        },
+      });
 
     if (!checkout) {
       throw new NotFoundException();
@@ -52,15 +59,14 @@ export class CheckoutService {
       user: ownerId,
     });
 
-    /* console.log(checkout); */
-
     const createdCheckout = await checkout.save();
-    const populatedCheckout = createdCheckout.populate<PopulatedCheckout>([
-      'items.product',
-      'items.product.category',
-    ]);
-
-    //console.log(populatedCheckout);
+    const populatedCheckout = createdCheckout.populate<PopulatedCheckout>({
+      path: 'items.product',
+      populate: {
+        path: 'category',
+        model: Category.name,
+      },
+    });
 
     return populatedCheckout;
   }
