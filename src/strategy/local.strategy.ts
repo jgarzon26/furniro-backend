@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 import { AuthService } from 'src/auth/auth.service';
@@ -11,11 +11,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
   async validate(username: string, password: string) {
     const user = await this.authService.validateUser({ username, password });
-    if (!user) {
-      throw new UnauthorizedException();
-    }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: pass, ...res } = user;
+    const { password: pass, ...res } = user.toJSON();
     return res;
   }
 }

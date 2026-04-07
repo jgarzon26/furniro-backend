@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import { Cart } from './cart.schema';
 
 export type UserDocument = HydratedDocument<User>;
+export type UserJSON = Omit<User, 'password'> & { _id: Types.ObjectId };
 
 export enum UserRole {
   User = 'user',

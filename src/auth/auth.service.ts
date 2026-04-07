@@ -1,11 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash, verify } from 'argon2';
 import { LoginDto, SignupDto } from './dto';
 import { AuthRes } from 'src/graphql';
 import { JwtPayload } from 'src/types';
-import { UserDocument, UserService } from 'src/user';
+import { UserService } from 'src/user';
 
 @Injectable()
 export class AuthService {
@@ -19,20 +23,20 @@ export class AuthService {
     const user = await this.userService.getUser({ username });
 
     if (!user) {
-      return null;
+      throw new NotFoundException();
     }
 
     const isMatched = await verify(user.password, password);
 
     if (!isMatched) {
-      return null;
+      throw new UnauthorizedException();
     }
 
     return user;
   }
 
-  login(user: UserDocument): AuthRes {
-    const payload: JwtPayload = { sub: user.id, username: user.username };
+  login(id: string, username: string): AuthRes {
+    const payload: JwtPayload = { sub: id, username };
     const token = this.jwtService.sign(payload);
     return {
       token,

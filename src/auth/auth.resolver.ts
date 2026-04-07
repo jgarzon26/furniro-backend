@@ -5,7 +5,7 @@ import { SignupDto } from './dto';
 import { AuthRes } from 'src/graphql';
 import { LocalAuthGuard } from 'src/guards';
 import { CurrentUser } from 'src/decorators';
-import type { UserDocument } from 'src/user';
+import type { UserJSON } from 'src/user/user.schema';
 
 @Resolver('Auth')
 export class AuthResolver {
@@ -13,8 +13,10 @@ export class AuthResolver {
 
   @Query('login')
   @UseGuards(LocalAuthGuard)
-  login(@CurrentUser() user: UserDocument): AuthRes {
-    return this.authService.login(user);
+  login(@CurrentUser() user: UserJSON): AuthRes {
+    console.log(user);
+    const { _id, username } = user;
+    return this.authService.login(_id.toString(), username);
   }
 
   @Mutation('signup')
