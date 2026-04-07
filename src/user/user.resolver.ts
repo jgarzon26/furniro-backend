@@ -15,7 +15,7 @@ export class UserResolver {
   @Query('user')
   async getCurrentUser(@CurrentUser() user: JwtPayload) {
     const { sub } = user;
-    const populatedUser = (
+    const populatedUser = await (
       await this.userService.getCurrentUser(sub)
     )?.populate('cart.items.product');
     return populatedUser;
