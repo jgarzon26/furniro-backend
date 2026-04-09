@@ -6,4 +6,5 @@ type CartItem {
 
 type Cart {
   items: [CartItem!]!
+  totalPrice: Float!
 }

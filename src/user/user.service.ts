@@ -8,6 +8,7 @@ import { CartItem } from './cart-item.schema';
 import { ProductService } from 'src/product';
 import { Category } from 'src/category';
 import { PopulatedUser } from './types';
+import { calculateTotalPrice } from 'src/util/product-util';
 
 @Injectable()
 export class UserService {
@@ -112,7 +113,10 @@ export class UserService {
 
     const cart = await this.populateCart(user, updatedItems);
     return {
-      cart,
+      cart: {
+        ...cart,
+        totalPrice: calculateTotalPrice(cart.items),
+      },
       message: 'Cart Updated successfully',
     };
   }
@@ -133,7 +137,10 @@ export class UserService {
         },
       });
       return {
-        cart: userPopulated.cart,
+        cart: {
+          ...userPopulated.cart,
+          totalPrice: calculateTotalPrice(userPopulated.cart.items),
+        },
         message: 'Failed to update cart',
       };
     }
@@ -154,7 +161,10 @@ export class UserService {
 
     const cart = await this.populateCart(user, updatedItems);
     return {
-      cart,
+      cart: {
+        ...cart,
+        totalPrice: calculateTotalPrice(cart.items),
+      },
       message: 'Cart updated successfully',
     };
   }
