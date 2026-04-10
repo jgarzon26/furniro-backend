@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument, UserRole } from './user.schema';
@@ -9,6 +9,7 @@ import { ProductService } from 'src/product';
 import { Category } from 'src/category';
 import { PopulatedUser } from './types';
 import { calculateTotalPrice } from 'src/util/product-util';
+import { User as UserGQL } from 'src/graphql';
 
 @Injectable()
 export class UserService {
@@ -34,9 +35,29 @@ export class UserService {
     return user;
   }
 
-  async getCurrentUser(uid?: string) {
+  async getCurrentUser(uid?: string): Promise<UserGQL> {
     const user = await this.getUser({ uid });
-    return user;
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    const populatedUser = await user.populate<PopulatedUser>({
+      path: 'cart.items.product',
+      populate: {
+        path: 'category',
+        model: Category.name,
+      },
+    });
+
+    const docUser = populatedUser.toJSON();
+
+    return {
+      ...docUser,
+      cart: {
+        ...docUser.cart,
+        totalPrice: calculateTotalPrice(populatedUser.cart.items),
+      },
+    };
   }
 
   async createUser({

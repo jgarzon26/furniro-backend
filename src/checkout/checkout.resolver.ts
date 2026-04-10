@@ -31,7 +31,7 @@ export class CheckoutResolver {
     @CurrentUser() { sub }: JwtPayload,
     @Args('input') input: AddCheckoutInputDto,
   ) {
-    const user = await this.userService.getCurrentUser(sub);
+    const user = await this.userService.getUser({ uid: sub });
     if (!user) {
       throw new NotFoundException('User does not exist');
     }

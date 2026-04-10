@@ -5,7 +5,7 @@ import { AddCartInputDto, RemoveCartInputDto } from './dto';
 import { NotFoundException, UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/guards';
 import type { JwtPayload } from 'src/types';
-import { CartUpdateRes } from 'src/graphql';
+import { CartUpdateRes, User } from 'src/graphql';
 
 @Resolver('User')
 export class UserResolver {
@@ -13,12 +13,9 @@ export class UserResolver {
 
   @UseGuards(JwtGuard)
   @Query('user')
-  async getCurrentUser(@CurrentUser() user: JwtPayload) {
+  async getCurrentUser(@CurrentUser() user: JwtPayload): Promise<User> {
     const { sub } = user;
-    const populatedUser = await (
-      await this.userService.getCurrentUser(sub)
-    )?.populate('cart.items.product');
-    return populatedUser;
+    return this.userService.getCurrentUser(sub);
   }
 
   @UseGuards(JwtGuard)
@@ -27,7 +24,7 @@ export class UserResolver {
     @CurrentUser() { sub }: JwtPayload,
     @Args('input') input: AddCartInputDto,
   ): Promise<CartUpdateRes> {
-    const user = await this.userService.getCurrentUser(sub);
+    const user = await this.userService.getUser({ uid: sub });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -40,7 +37,7 @@ export class UserResolver {
     @CurrentUser() { sub }: JwtPayload,
     @Args('input') input: RemoveCartInputDto,
   ): Promise<CartUpdateRes> {
-    const user = await this.userService.getCurrentUser(sub);
+    const user = await this.userService.getUser({ uid: sub });
     if (!user) {
       throw new NotFoundException('User not found');
     }
